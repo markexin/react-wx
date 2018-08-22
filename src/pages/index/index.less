@@ -1,0 +1,55 @@
+page {
+  height: 100%;
+}
+.main {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  .container {
+    flex: 1;
+    overflow: scroll;
+  }
+  .footer {
+    height: 120px;
+    line-height: 180px;
+    border-top: 1px solid #eee;
+    font-size: 30px;
+    overflow: hidden;
+    >ul {
+      display: flex;
+      >li {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        .addPlus {
+          position: absolute;
+          width: 60px;
+          height: 60px;
+          left: 50%;
+          top: 28px;
+          transform: translateX(-50%);
+        }
+        .navLogo {
+          position: absolute;
+          width: 60px;
+          height: 60px;
+          left: 50%;
+          top: 5px;
+          transform: translateX(-50%);
+        }
+      }
+    }
+  }
+}
+
+/*swiper*/
+.swiper-body {
+  height: 400px;
+  .swiper-item {
+    height: 100%;
+    image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
