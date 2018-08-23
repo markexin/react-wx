@@ -12,41 +12,57 @@ export default class Title extends Component {
 
     }
 
-    handleClick = (e) => {
-      e.preventDefault();
-      console.log(11111)
-    }
-
     render () {
+        
+        const { onChange } = this.props;
 
         return (
-            <view>
-              <view className="title">
+            <View>
+              <View className="title">
                 <span className="before"></span>
                 { this.title }
                 <span className="after"></span>
-              </view>
-              <view className="content">
-                <div onClick={ this.handleClick.bind(this) }>
+              </View>
+              <View className="content">
+                <View onClick={ onChange }>
                   <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                  <view className="brief">这是一个标题</view>
-                </div>
-                <div>
+                  <View className="brief">这是一个标题</View>
+                </View>
+                <View>
                   <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                  <view className="brief">这是一个标题</view>
-                </div>
-              </view>
-              <view className="content">
-                <div>
+                  <View className="brief">这是一个标题</View>
+                </View>
+              </View>
+              <View className="content">
+                <View>
                   <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                  <view className="brief">这是一个标题</view>
-                </div>
-                <div>
+                  <View className="brief">这是一个标题</View>
+                </View>
+                <View>
                   <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                  <view className="brief">这是一个标题</view>
-                </div>
-              </view>
-            </view>
+                  <View className="brief">这是一个标题</View>
+                </View>
+              </View>
+            </View>
         )
     }
 }
+
+/**
+ * 入参 Props 校验
+ * @type {Object}
+ */
+
+Title.defaultProps = {
+  title: ''
+};
+
+/**
+ * 入参 Props 格式校验
+ * @type {Object}
+ */
+
+Title.propTypes = {
+  title: String,
+  onChange: function
+};

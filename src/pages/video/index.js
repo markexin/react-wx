@@ -4,12 +4,8 @@ import { View, Button } from '@tarojs/components'
 import Title from '../../components/title'
 import ImageList from '../../components/imageList'
 
-import './index.less'
 
 export default class Video extends Component {
-  // config = {
-  //   navigationBarTitleText: '纪实'
-  // }
 
   constructor (props) {
 
@@ -25,12 +21,18 @@ export default class Video extends Component {
     
   }
 
+  change = (e) => {
+    e.stopPropagation();
+    // 切换照片墙模式
+    this.setState({ cur: !this.state.cur })
+  }
+
   render () {
     let { cur } = this.state;
     return (
       <View>
         {
-          cur ? <ImageList /> : <Title />
+          cur ? <ImageList /> : <Title onChange={ this.change } />
         }
       </View>
     )
