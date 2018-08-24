@@ -3,7 +3,7 @@ import { View, Button } from '@tarojs/components'
 
 import Title from '../../components/title'
 import ImageList from '../../components/imageList'
-
+import './index.less'
 
 export default class Video extends Component {
 

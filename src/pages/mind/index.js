@@ -3,8 +3,8 @@ import { View, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 
 import { add, minus, asyncAdd } from '../../actions/counter'
+import List from '../../components/list/list'
 
-import './index.less'
 
 @connect(({ counter }) => ({
   counter
@@ -31,7 +31,7 @@ export default class Mind extends Component {
   render () {
     return (
       <View className='index'>
-        <Button>感悟</Button>
+        <List></List>
       </View>
     )
   }

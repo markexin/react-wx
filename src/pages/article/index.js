@@ -6,7 +6,6 @@ import { add, minus, asyncAdd } from '../../actions/counter'
 
 import List from '../../components/list/list'
 
-import './index.less'
 
 @connect(({ counter }) => ({
   counter

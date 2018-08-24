@@ -63,6 +63,5 @@ Title.defaultProps = {
  */
 
 Title.propTypes = {
-  title: String,
-  onChange: function
+  title: String
 };

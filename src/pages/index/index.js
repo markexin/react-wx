@@ -13,7 +13,7 @@ import createPng from '../../static/create.png'
 
 
 // 组件
-import Swiperc from '../../components/swiper'
+import Swiperc from '../../components/swiperc/swiper'
 import Title from '../../components/title'
 
 
@@ -64,7 +64,7 @@ export default class Index extends Component {
               </Navigator>
             </li>
             <li>
-              <Navigator url="/pages/mind/index">
+              <Navigator url="/pages/edit/index">
                 <image className="addPlus" src={ createPng }></image>
               </Navigator>
             </li>

@@ -17,6 +17,7 @@ class App extends Component {
       'pages/video/index',
       'pages/article/index',
       'pages/mind/index',
+      'pages/edit/index',
       'pages/baby/index'
     ],
     window: {

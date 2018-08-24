@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 // 引入 Swiper, SwiperItem 组件
 import { Swiper, SwiperItem } from '@tarojs/components'
-
+import './index.less'
 
 export default class Swiperc extends Component {
     render () {
