@@ -9,7 +9,7 @@ export default function counter (state=INITIAL_STATE, action) {
     case UPDATE:
       return {
         ...state,
-        login: state.login
+        login: action.value
       }
      default:
        return state

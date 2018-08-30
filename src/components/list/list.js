@@ -5,6 +5,18 @@ import './index.less'
 export default class List extends Component {
 
     render () {
+
+        let { dataSource } = this.props;
+        let listItems = dataSource.map((item, index) => {
+          return (
+            <View className="list-item clearfix" key={String(index)}>
+              <p>{ item.NAME }</p>
+              <a>{ item.NAME }</a>
+              <span>{ item.DATE }</span>
+            </View>
+          )
+        })
+
         return (
             <ScrollView className='scrollview'
               scrollY
@@ -13,12 +25,28 @@ export default class List extends Component {
               style='height: 100%;'
               lowerThreshold='20'
               upperThreshold='20'>
-              <View className="list-item clearfix">
-                <p>这里是一个标题</p>
-                <a>这里是一个简介这里是一个简介这里是一个简介这里是一个简介</a>
-                <span>2018-07-16 12:00:00</span>
-              </View>
+              { listItems }
             </ScrollView>
         )
+
     }
 }
+
+
+/**
+ * 入参 Props 校验
+ * @type {Object}
+ */
+
+List.defaultProps = {
+  dataSource: []
+};
+
+/**
+ * 入参 Props 格式校验
+ * @type {Object}
+ */
+
+List.propTypes = {
+  dataSource: Array
+};

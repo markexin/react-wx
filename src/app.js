@@ -6,6 +6,8 @@ import Index from './pages/index'
 
 import configStore from './store'
 
+Taro['REQUEST_URL'] = "http://localhost:7001"
+
 import './app.less'
 
 const store = configStore()

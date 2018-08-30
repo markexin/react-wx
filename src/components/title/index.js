@@ -17,7 +17,7 @@ export default class Title extends Component {
         const { onChange } = this.props;
 
         return (
-            <View>
+            <View className="title-body-style">
               <View className="title">
                 <span className="before"></span>
                 { this.title }
