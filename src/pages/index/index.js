@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Button } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 
-import { add, minus, asyncAdd } from '../../actions/counter'
+import { login } from '../../actions/counter'
 
 // logo
 import articlePng from '../../static/article.png'
@@ -20,26 +20,58 @@ import Title from '../../components/title'
 
 import './index.less'
 
+
 @connect(({ counter }) => ({
   counter
 }), (dispatch) => ({
-  add () {
-    dispatch(add())
-  },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
+  login () {
+    dispatch(login())
   }
 }))
+
 export default class Index extends Component {
   config = {
     navigationBarTitleText: '首页'
   }
+  
+  // login = () => {
+  //   // 登录接口
+  //   Taro.request({
+  //     url: 'http://localhost:8080/test',
+  //     data: {
+  //         foo: 'foo',
+  //         bar: 10
+  //     },
+  //     header: {
+  //       'content-type': 'application/json'
+  //     }
+  //   })
+  // }
 
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
+  componentDidMount () {
+    this.props.login();
+    // this.login()
+    // wx.login({
+    //   success: function(res) {
+    //     if (res.code) {
+    //       wx.getUserInfo({
+    //         success: function(res) {
+    //           console.log(res.userInfo)
+    //         }
+    //       })
+    //       //发起网络请求
+    //       wx.request({
+    //         url: 'http://localhost:7001/login',
+    //         method: 'POST',
+    //         data: {
+    //           code: res.code
+    //         }
+    //       })
+    //     } else {
+    //       console.log('登录失败！' + res.errMsg)
+    //     }
+    //   }
+    // })
   }
 
   render () {

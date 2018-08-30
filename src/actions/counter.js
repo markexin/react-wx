@@ -1,24 +1,20 @@
 import {
-  ADD,
-  MINUS
+  LOGIN,
+  UPDATE
 } from '../constants/counter'
 
-export const add = () => {
+
+export const update = () => {
   return {
-    type: ADD
-  }
-}
-export const minus = () => {
-  return {
-    type: MINUS
+    type: UPDATE
   }
 }
 
 // 异步的action
-export function asyncAdd () {
+export const login = () => {
   return dispatch => {
     setTimeout(() => {
-      dispatch(add())
+      dispatch(update())
     }, 2000)
   }
 }
