@@ -34,6 +34,22 @@ let insertTitle = "";
 let insertContent = "";
 
 
+const upFile = (tempFilePaths) => {
+  wx.uploadFile({
+    url: `${Taro.REQUEST_URL}/upload`, //仅为示例，非真实的接口地址
+    filePath: tempFilePaths,
+    header: {
+     'content-type':'multipart/form-data'
+    },
+    name: 'upload',
+    success: function(res){
+      var data = res.data
+      console.log(data)
+    }
+  })
+}
+
+
 export default class Edit extends Component {
 
   config = {
@@ -97,24 +113,14 @@ export default class Edit extends Component {
       wx.chooseImage({
         success: function(res) {
           var tempFilePaths = res.tempFilePaths
-          console.log(tempFilePaths);
-          // 调取上传接口
-          // wx.uploadFile({
-          //   url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
-          //   filePath: tempFilePaths[0],
-          //   name: 'file',
-          //   formData:{
-          //     'user': 'test'
-          //   },
-          //   success: function(res){
-          //     var data = res.data
-          //     //do something
-          //   }
-          // })
+          // 判断是否多文件上传
+          tempFilePaths.forEach( (element, index) => {
+            upFile(element)
+          });
         }
       })
     }else {
-      
+      // 待开发小视频录像功能
     }
   }
 
