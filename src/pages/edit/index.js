@@ -1,5 +1,14 @@
 import Taro, { Component } from '@tarojs/taro'
-import { AtInput, AtButton, AtRadio, AtTextarea } from 'taro-ui'
+import { 
+  AtInput, 
+  AtButton, 
+  AtRadio, 
+  AtTextarea, 
+  AtToast, 
+  AtIcon, 
+  AtActionSheet, 
+  AtActionSheetItem 
+} from 'taro-ui'
 import './index.less'
 
 const labelList = [
@@ -24,6 +33,7 @@ const labelList = [
 let insertTitle = "";
 let insertContent = "";
 
+
 export default class Edit extends Component {
 
   config = {
@@ -34,9 +44,9 @@ export default class Edit extends Component {
     super(props);
 
     this.state = {
-      title: "",
-      type: "",
-      content: ""
+      type: "WORD",
+      status: false,
+      openStatus: false
     }
   }
 
@@ -54,8 +64,63 @@ export default class Edit extends Component {
     })
   }
 
+  handleAction = () => {
+    this.setState({
+      openStatus: !this.state.openStatus
+    })
+  }
+
+  toastClose = () => {
+    let { type } = this.state;
+    switch (type) {
+      case 'WORD':
+        Taro.redirectTo({ url: '/pages/article/index' })
+        break;
+      case 'MIND':
+        Taro.redirectTo({ url: '/pages/mind/index' })
+        break;
+      case 'BABY':
+        Taro.redirectTo({ url: '/pages/baby/index' })
+        break;
+      case 'VIDEO':
+        Taro.redirectTo({ url: '/pages/video/index' })
+        break;
+      default:
+        Taro.redirectTo({ url: '/pages/index/index' })
+        break;
+    }
+  }
+
+  chooseItem = (value) => {
+    if (value) {
+      // 拍照功能
+      wx.chooseImage({
+        success: function(res) {
+          var tempFilePaths = res.tempFilePaths
+          console.log(tempFilePaths);
+          // 调取上传接口
+          // wx.uploadFile({
+          //   url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
+          //   filePath: tempFilePaths[0],
+          //   name: 'file',
+          //   formData:{
+          //     'user': 'test'
+          //   },
+          //   success: function(res){
+          //     var data = res.data
+          //     //do something
+          //   }
+          // })
+        }
+      })
+    }else {
+      
+    }
+  }
+
   upPublish = () => {
     let { type } = this.state;
+
     Taro.request({
       url: `${Taro.REQUEST_URL}/words`,
       method: 'PUT',
@@ -70,11 +135,15 @@ export default class Edit extends Component {
         'content-type': 'application/json'
       }
     }).then(res => {
-      console.log(res)
+      this.setState({
+        status: !this.state.status
+      })
     })
   }
 
   render () {
+
+    let {status, type, openStatus} = this.state;
 
     return (
       <View className='index'>
@@ -95,18 +164,35 @@ export default class Edit extends Component {
               onClick={this.handleType.bind(this)}
             />
           </View>
-          <View className="brief">
-            <AtTextarea
-              value={insertContent}
-              onChange={this.handleContent}
-              maxlength='200'
-              placeholder='说出你的故事...'
-            />
-          </View>
+          {
+            type !== 'VIDEO' ? <View className="brief">
+              <AtTextarea
+                value={insertContent}
+                onChange={this.handleContent}
+                maxlength='200'
+                placeholder='说出你的故事...'
+              />
+            </View> : <View className="fileUpload" onClick={this.handleAction}>
+              <AtIcon value='camera' size='30' color='#999'></AtIcon>
+            </View>
+          }
           <View className="save-btn">
             <AtButton type='secondary' onClick={this.upPublish}>发 布</AtButton>
           </View>
         </View>
+        <AtActionSheet isOpened={openStatus}>
+          <AtActionSheetItem onClick={this.chooseItem.bind(this, true)}>
+            上传图片
+          </AtActionSheetItem>
+          {/*<AtActionSheetItem onClick={this.chooseItem.bind(this, false)}>
+            录制视频
+          </AtActionSheetItem>*/}
+        </AtActionSheet>
+        <AtToast
+        isOpened={ status }
+        text="发布成功"
+        onClose={ this.toastClose }
+        icon="check"></AtToast>
       </View>
     )
   }
