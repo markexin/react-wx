@@ -9,6 +9,9 @@ import {
   AtActionSheet, 
   AtActionSheetItem 
 } from 'taro-ui'
+
+import Upload from '../../components/upload'
+
 import './index.less'
 
 const labelList = [
@@ -34,21 +37,6 @@ let insertTitle = "";
 let insertContent = "";
 
 
-const upFile = (tempFilePaths) => {
-  wx.uploadFile({
-    url: `${Taro.REQUEST_URL}/upload`, //仅为示例，非真实的接口地址
-    filePath: tempFilePaths,
-    header: {
-     'content-type':'multipart/form-data'
-    },
-    name: 'upload',
-    success: function(res){
-      var data = res.data
-      console.log(data)
-    }
-  })
-}
-
 
 export default class Edit extends Component {
 
@@ -61,8 +49,7 @@ export default class Edit extends Component {
 
     this.state = {
       type: "WORD",
-      status: false,
-      openStatus: false
+      status: false
     }
   }
 
@@ -77,12 +64,6 @@ export default class Edit extends Component {
   handleType = (value) => {
     this.setState({
       type: value
-    })
-  }
-
-  handleAction = () => {
-    this.setState({
-      openStatus: !this.state.openStatus
     })
   }
 
@@ -107,22 +88,7 @@ export default class Edit extends Component {
     }
   }
 
-  chooseItem = (value) => {
-    if (value) {
-      // 拍照功能
-      wx.chooseImage({
-        success: function(res) {
-          var tempFilePaths = res.tempFilePaths
-          // 判断是否多文件上传
-          tempFilePaths.forEach( (element, index) => {
-            upFile(element)
-          });
-        }
-      })
-    }else {
-      // 待开发小视频录像功能
-    }
-  }
+
 
   upPublish = () => {
     let { type } = this.state;
@@ -149,7 +115,7 @@ export default class Edit extends Component {
 
   render () {
 
-    let {status, type, openStatus} = this.state;
+    let {status, type} = this.state;
 
     return (
       <View className='index'>
@@ -178,27 +144,19 @@ export default class Edit extends Component {
                 maxlength='200'
                 placeholder='说出你的故事...'
               />
-            </View> : <View className="fileUpload" onClick={this.handleAction}>
-              <AtIcon value='camera' size='30' color='#999'></AtIcon>
-            </View>
+            </View> : <Upload></Upload>
           }
           <View className="save-btn">
             <AtButton type='secondary' onClick={this.upPublish}>发 布</AtButton>
           </View>
         </View>
-        <AtActionSheet isOpened={openStatus}>
-          <AtActionSheetItem onClick={this.chooseItem.bind(this, true)}>
-            上传图片
-          </AtActionSheetItem>
-          {/*<AtActionSheetItem onClick={this.chooseItem.bind(this, false)}>
-            录制视频
-          </AtActionSheetItem>*/}
-        </AtActionSheet>
-        <AtToast
-        isOpened={ status }
-        text="发布成功"
-        onClose={ this.toastClose }
-        icon="check"></AtToast>
+        <View>
+          <AtToast
+          isOpened={ status }
+          text="发布成功"
+          onClose={ this.toastClose }
+          icon="check"></AtToast>
+        </View>
       </View>
     )
   }

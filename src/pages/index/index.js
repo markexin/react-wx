@@ -14,6 +14,7 @@ import createPng from '../../static/create.png'
 // 组件
 import Swiperc from '../../components/swiperc/swiper'
 import Title from '../../components/title'
+import List from '../../components/list/list'
 import LoginModel from '../../components/login'
 
 
@@ -36,6 +37,10 @@ export default class Index extends Component {
 
   componentDidMount () {
     // this.props.login();
+    this.init();
+  }
+
+  init = () => {
   }
 
   render () {
@@ -44,7 +49,7 @@ export default class Index extends Component {
         <LoginModel></LoginModel>
         <View className="container">
           <Swiperc />
-          <Title title="精选 / 文章"/>
+          <List></List>
         </View>
         <View className="footer">
           <ul>
