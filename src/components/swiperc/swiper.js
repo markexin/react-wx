@@ -4,7 +4,36 @@ import { Swiper, SwiperItem } from '@tarojs/components'
 import './index.less'
 
 export default class Swiperc extends Component {
+
+    constructor (props) {
+
+      super(props)
+      this.state = {
+        list: []
+      }
+
+    }
+
+    init = () => {
+      Taro.request({
+        url: `${Taro.REQUEST_URL}/video`,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json'
+        }
+      }).then(res => {
+        this.setState({
+          list: res.data
+        })
+      })
+    }
+
+    componentDidMount () {
+      this.init()
+    }
+
     render () {
+        let {list} = this.state;
         return (
             <Swiper
                 className='swiper-body'
@@ -13,21 +42,15 @@ export default class Swiperc extends Component {
                 circular
                 indicatorDots
                 autoplay>
-              <SwiperItem>
-                <View className='swiper-item'>
-                  <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                </View>
-              </SwiperItem>
-              <SwiperItem>
-                <View className='swiper-item'>
-                  <image src="http://img4.imgtn.bdimg.com/it/u=3909311365,1858650463&fm=27&gp=0.jpg" />
-                </View>
-              </SwiperItem>
-              <SwiperItem>
-                <View className='swiper-item'>
-                  <image src="http://img3.imgtn.bdimg.com/it/u=840841630,4092051927&fm=27&gp=0.jpg" />
-                </View>
-              </SwiperItem>
+              {
+                list.map((item, index) => {
+                  return <SwiperItem key={String(index)}>
+                            <View className='swiper-item'>
+                              <image src={item.FIRST} />
+                            </View>
+                          </SwiperItem>
+                })
+              }
             </Swiper>
         )
     }

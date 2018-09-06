@@ -49,8 +49,19 @@ export default class Edit extends Component {
 
     this.state = {
       type: "WORD",
-      status: false
+      status: false,
+      list: []
     }
+  }
+
+  clear = () => {
+    this.setState({
+      type: "WORD",
+      status: false,
+      list: []
+    })
+    insertTitle = "";
+    insertContent = "";
   }
 
   handleTitle = (value) => {
@@ -65,6 +76,10 @@ export default class Edit extends Component {
     this.setState({
       type: value
     })
+  }
+
+  componentWillUnmount () {
+    this.clear()
   }
 
   toastClose = () => {
@@ -91,26 +106,58 @@ export default class Edit extends Component {
 
 
   upPublish = () => {
-    let { type } = this.state;
-
-    Taro.request({
-      url: `${Taro.REQUEST_URL}/words`,
-      method: 'PUT',
-      data: {
-          type: type,
-          name: insertTitle,
-          date: Date.parse(new Date),
-          id: Date.parse(new Date),
-          content: insertContent
-      },
-      header: {
-        'content-type': 'application/json'
-      }
-    }).then(res => {
-      this.setState({
-        status: !this.state.status
+    let { type, list } = this.state;
+    if (type === 'VIDEO') {
+      // 图片类型发布
+      Taro.request({
+        url: `${Taro.REQUEST_URL}/video`,
+        method: 'PUT',
+        data: {
+            album: insertTitle,
+            update: Date.parse(new Date),
+            id: Date.parse(new Date),
+            first: list[0],
+            url: JSON.stringify(list)
+        },
+        header: {
+          'content-type': 'application/json'
+        }
+      }).then(res => {
+        this.setState({
+          status: !this.state.status
+        })
       })
+
+    }else {
+      // 普通文章发布
+      Taro.request({
+        url: `${Taro.REQUEST_URL}/words`,
+        method: 'PUT',
+        data: {
+            type: type,
+            name: insertTitle,
+            date: Date.parse(new Date),
+            id: Date.parse(new Date),
+            content: insertContent
+        },
+        header: {
+          'content-type': 'application/json'
+        }
+      }).then(res => {
+        this.setState({
+          status: !this.state.status
+        })
+      })
+
+    }
+  }
+
+  getList = (value) => {
+    
+    this.setState({
+      list: value
     })
+
   }
 
   render () {
@@ -144,7 +191,7 @@ export default class Edit extends Component {
                 maxlength='200'
                 placeholder='说出你的故事...'
               />
-            </View> : <Upload></Upload>
+            </View> : <Upload isUploadList={{getList: this.getList.bind(this)}}></Upload>
           }
           <View className="save-btn">
             <AtButton type='secondary' onClick={this.upPublish}>发 布</AtButton>

@@ -4,44 +4,21 @@ import './index.less'
 
 export default class Title extends Component {
   
-    constructor (props) {
-
-      super(props)
-
-      this.title = this.props.title
-
-    }
-
     render () {
         
-        const { onChange } = this.props;
+        const { onChange, isData } = this.props;
 
         return (
             <View className="title-body-style">
-              <View className="title">
-                <span className="before"></span>
-                { this.title }
-                <span className="after"></span>
-              </View>
               <View className="content">
-                <View onClick={ onChange }>
-                  <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                  <View className="brief">这是一个标题</View>
-                </View>
-                <View>
-                  <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                  <View className="brief">这是一个标题</View>
-                </View>
-              </View>
-              <View className="content">
-                <View>
-                  <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                  <View className="brief">这是一个标题</View>
-                </View>
-                <View>
-                  <image src="http://img0.imgtn.bdimg.com/it/u=2845338703,2138227875&fm=27&gp=0.jpg" />
-                  <View className="brief">这是一个标题</View>
-                </View>
+                {
+                  isData.map((item, index) => {
+                    return <View key={index} onClick={ onChange.bind(this, item)}>
+                            <image src={item.FIRST} />
+                            <View className="brief">{item.ALBUM}</View>
+                          </View>
+                  })
+                }
               </View>
             </View>
         )
@@ -54,7 +31,7 @@ export default class Title extends Component {
  */
 
 Title.defaultProps = {
-  title: ''
+  isData: []
 };
 
 /**
@@ -63,5 +40,5 @@ Title.defaultProps = {
  */
 
 Title.propTypes = {
-  title: String
+  isData: Array
 };

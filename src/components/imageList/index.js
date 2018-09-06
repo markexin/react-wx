@@ -1,34 +1,13 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Swiper, SwiperItem } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
-
-import { add, minus, asyncAdd } from '../../actions/counter'
 
 import './index.less'
 
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
-  add () {
-    dispatch(add())
-  },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
-  }
-}))
-
 export default class ImageList extends Component {
-  
-  constructor (props) {
-
-    super(props)
-
-  }
 
   render () {
+    let {sourceData} = this.props;
+    let json = sourceData.hasOwnProperty('URL') ? JSON.parse(sourceData.URL) : [];
     return (
       <Swiper
         className='image-wall'
@@ -37,17 +16,37 @@ export default class ImageList extends Component {
         circular
         indicatorDots
         >
-        <SwiperItem>
-          <View className='demo-text-1'>1</View>
-        </SwiperItem>
-        <SwiperItem>
-          <View className='demo-text-2'>2</View>
-        </SwiperItem>
-        <SwiperItem>
-          <View className='demo-text-3'>3</View>
-        </SwiperItem>
+        {
+          json.map((item, index) => {
+            return <SwiperItem key={String(index)}>
+                    <View className='item'>
+                      <Image src={item}></Image>
+                    </View>
+                  </SwiperItem>
+          })
+        }
       </Swiper>
     )
   }
 }
+
+
+
+/**
+ * 入参 Props 校验
+ * @type {Object}
+ */
+
+ImageList.defaultProps = {
+  sourceData: []
+};
+
+/**
+ * 入参 Props 格式校验
+ * @type {Object}
+ */
+
+ImageList.propTypes = {
+  sourceData: Array
+};
 

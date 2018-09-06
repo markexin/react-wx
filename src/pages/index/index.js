@@ -35,21 +35,49 @@ export default class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
+  constructor () {
+    super();
+
+    this.state = {
+      result: []
+    }
+
+  }
+
+  componentWillMount () {
+    this.init();
+  }
+
   componentDidMount () {
     // this.props.login();
     this.init();
   }
 
   init = () => {
+    Taro.request({
+      url: `${Taro.REQUEST_URL}/list`,
+      data: {
+          foo: 'foo',
+          bar: 10
+      },
+      header: {
+        'content-type': 'application/json'
+      }
+    }).then(res => {
+      this.setState({
+        result: res.data
+      })
+    })
   }
 
   render () {
+    let { result } = this.state;
     return (
       <View className="main">
         <LoginModel></LoginModel>
         <View className="container">
           <Swiperc />
-          <List></List>
+          <List dataSource={ result }></List>
         </View>
         <View className="footer">
           <ul>

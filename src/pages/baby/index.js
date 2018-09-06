@@ -4,7 +4,6 @@ import { View } from '@tarojs/components'
 import List from '../../components/list/list'
 
 
-
 export default class Baby extends Component {
   config = {
     navigationBarTitleText: '宝贝'
@@ -27,7 +26,7 @@ export default class Baby extends Component {
           foo: 'foo',
           bar: 10
       },
-      methods: "POST",
+      method: 'POST',
       header: {
         'content-type': 'application/json'
       }

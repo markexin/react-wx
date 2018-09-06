@@ -12,7 +12,9 @@ export default class Video extends Component {
     super(props)
 
     this.state = {
-      cur: false
+      cur: false,
+      list: [],
+      itemData: []
     }
     
     this.config = {
@@ -21,18 +23,36 @@ export default class Video extends Component {
     
   }
 
-  change = (e) => {
+  componentDidMount () {
+    this.init();
+  }
+
+  init = () => {
+    Taro.request({
+      url: `${Taro.REQUEST_URL}/video`,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json'
+      }
+    }).then(res => {
+      this.setState({
+        list: res.data
+      })
+    })
+  }
+
+  change = (item, e) => {
     e.stopPropagation();
     // 切换照片墙模式
-    this.setState({ cur: !this.state.cur })
+    this.setState({ cur: !this.state.cur, itemData: item })
   }
 
   render () {
-    let { cur } = this.state;
+    let { cur, list, itemData } = this.state;
     return (
       <View>
         {
-          cur ? <ImageList /> : <Title onChange={ this.change } />
+          cur ? <ImageList sourceData={ itemData } /> : <Title onChange={ this.change } isData={ list } />
         }
       </View>
     )

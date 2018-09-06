@@ -14,8 +14,9 @@ export default class Upload extends Component {
   }
 
   upFile = (tempFilePaths) => {
-    let _this = this;
     let {list} = this.state;
+    let { isUploadList } = this.props;
+
     wx.uploadFile({
       url: `${Taro.REQUEST_URL}/upload`, //仅为示例，非真实的接口地址
       filePath: tempFilePaths,
@@ -23,12 +24,19 @@ export default class Upload extends Component {
        'content-type':'multipart/form-data'
       },
       name: 'upload',
-      success: function(res){
+      success: res => {
         var data = JSON.parse(res.data)
         if (data.code === 0) {
-          _this.setState({
+
+          // 更新组件内部state
+          this.setState({
             list: [...list, ...[data.url]]
           })
+
+          // 传递props
+          const isUploadList = this.props.isUploadList;
+          isUploadList.getList([...list, ...[data.url]]);
+
         }
       }
     })
@@ -74,3 +82,23 @@ export default class Upload extends Component {
   }
 
 }
+
+
+
+/**
+ * 入参 Props 校验
+ * @type {Object}
+ */
+
+Upload.defaultProps = {
+  isUploadList: {}
+};
+
+/**
+ * 入参 Props 格式校验
+ * @type {Object}
+ */
+
+Upload.propTypes = {
+  isUploadList: Object
+};
