@@ -1,9 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
 
 
-import { login } from '../../actions/counter'
 
 // logo
 import articlePng from '../../static/article.png'
@@ -21,14 +19,6 @@ import LoginModel from '../../components/login'
 
 import './index.less'
 
-
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
-  login () {
-    dispatch(login())
-  }
-}))
 
 export default class Index extends Component {
   config = {
@@ -49,7 +39,6 @@ export default class Index extends Component {
   }
 
   componentDidMount () {
-    // this.props.login();
     this.init();
   }
 

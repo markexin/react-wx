@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import './index.less'
+import moment from 'moment'
 
 export default class Content extends Component {
 
@@ -53,7 +54,8 @@ export default class Content extends Component {
           {result.NAME}
         </View>
         <View className='at-article__info'>
-          {result.DATE}&nbsp;&nbsp;&nbsp;{result.AUTHER}
+          <Text>{moment(+result.DATE).format('YYYY-MM-DD HH:mm:ss')}</Text>
+          <Text className='auther'>{result.AUTHER}</Text>
         </View>
         <View className='at-article__content'>
           <View className='at-article__section'>

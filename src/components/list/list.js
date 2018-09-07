@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import './index.less'
+import moment from 'moment'
 
 
 export default class List extends Component {
@@ -15,8 +16,13 @@ export default class List extends Component {
           return (
             <View className="list-item clearfix" key={String(index)} onClick={this.goUp.bind(this, item)}>
               <p>{ item.NAME }</p>
-              <a>{ item.NAME }</a>
-              <span>{ item.DATE }</span>
+              <View className="autherImg">
+                <Image src={item.AUTHER_IMG}></Image>
+              </View>
+              <View className="autherText">
+                {item.AUTHER}
+              </View>
+              <span>{ moment(+item.DATE).format('YYYY-MM-DD HH:mm:ss') }</span>
             </View>
           )
         })

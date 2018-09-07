@@ -1,4 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
+import { connect } from '@tarojs/redux'
 import { 
   AtInput, 
   AtButton, 
@@ -37,6 +38,9 @@ let insertTitle = "";
 let insertContent = "";
 
 
+@connect(({ counter }) => ({
+  counter
+}), (dispatch) => ({}))
 
 export default class Edit extends Component {
 
@@ -107,6 +111,7 @@ export default class Edit extends Component {
 
   upPublish = () => {
     let { type, list } = this.state;
+    let {nickName, avatarUrl} = this.props.counter.login;
     if (type === 'VIDEO') {
       // 图片类型发布
       Taro.request({
@@ -117,7 +122,9 @@ export default class Edit extends Component {
             update: Date.parse(new Date),
             id: Date.parse(new Date),
             first: list[0],
-            url: JSON.stringify(list)
+            url: JSON.stringify(list),
+            nickName: nickName,
+            avatarUrl: avatarUrl
         },
         header: {
           'content-type': 'application/json'
@@ -138,7 +145,9 @@ export default class Edit extends Component {
             name: insertTitle,
             date: Date.parse(new Date),
             id: Date.parse(new Date),
-            content: insertContent
+            content: insertContent,
+            nickName: nickName,
+            avatarUrl: avatarUrl
         },
         header: {
           'content-type': 'application/json'
@@ -161,9 +170,7 @@ export default class Edit extends Component {
   }
 
   render () {
-
     let {status, type} = this.state;
-
     return (
       <View className='index'>
         <View className="content">
